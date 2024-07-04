@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManagement.Domain.Models
+﻿namespace TaskManagement.Domain.Models
 {
-    public class Comment : Entity
-    {
-        public string CommentText { get; set; } = string.Empty;
-        //If it's true soft delete the comment and hidde from UI list
-        public bool IsHidden { get; set; }
-        public ICollection<Comment>? Comments { get; set;}
-    }
+	//represent the comments-conversetion under one task
+	public class Comment : Entity
+	{
+		public long AssignmentId { get; set; }
+		public long UserId { get; set; }
+		public string CommentText { get; set; } = string.Empty;
+		//If it's true soft delete the comment and hidde from UI list
+		public bool IsHidden { get; set; }
+		public ICollection<Comment>? Comments { get; set; }
+		public Assignment Assignment { get; set; }
+		public User User { get; set; }
+	}
 }

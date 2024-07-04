@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Domain", "Ta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.Infrastructure", "TaskManagement.Infrastructure\TaskManagement.Infrastructure.csproj", "{4633F6F1-24A6-4CBE-A4F3-E0AE0D736EC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.API", "TaskManagement.API\TaskManagement.API.csproj", "{0C43F9EF-DB06-46CB-87B9-7DAE36C53F14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManagement.API", "TaskManagement.API\TaskManagement.API.csproj", "{0C43F9EF-DB06-46CB-87B9-7DAE36C53F14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagement.Application", "TaskManagement.Application\TaskManagement.Application.csproj", "{5E6E6A00-22B0-41AB-BD5F-1F77E507C693}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{0C43F9EF-DB06-46CB-87B9-7DAE36C53F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C43F9EF-DB06-46CB-87B9-7DAE36C53F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C43F9EF-DB06-46CB-87B9-7DAE36C53F14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E6E6A00-22B0-41AB-BD5F-1F77E507C693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6E6A00-22B0-41AB-BD5F-1F77E507C693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6E6A00-22B0-41AB-BD5F-1F77E507C693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6E6A00-22B0-41AB-BD5F-1F77E507C693}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
