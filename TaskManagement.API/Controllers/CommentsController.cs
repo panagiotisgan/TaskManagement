@@ -21,5 +21,11 @@ namespace TaskManagement.API.Controllers
 		{
 			throw new NotImplementedException();
 		}
+
+		[HttpGet]
+		public ActionResult TestEndpoint()
+		{
+			return Ok("working");
+		}
 	}
 }

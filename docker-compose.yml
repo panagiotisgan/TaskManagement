@@ -1,0 +1,18 @@
+version: '4.0'
+
+services:
+  TaskManagement.Api:
+    image: ${DOCKER_REGISTRY-}taskmanagementapi
+    build:
+      context: .
+      dockerfile: TaskManagement.API/Dockerfile
+
+  db:
+   image: "mcr.microsoft.com/mssql/server:2019-latest"
+   ports:
+     - 1433:1433
+   volumes:
+      - db:/var/opt/mssql
+volumes:
+  db:
+    driver: local
