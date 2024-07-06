@@ -16,6 +16,8 @@ namespace TaskManagement.Infrastructure.Services
 
 		public async Task CreateComment(Comment comment)
 		{
+			comment.CreatedAt = DateTime.UtcNow;
+
 			_taskManagementContext.Comments.Add(comment);
 			await _taskManagementContext.SaveChangesAsync();
 		}
