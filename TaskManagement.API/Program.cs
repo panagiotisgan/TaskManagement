@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Application.Comments.Commands;
 using TaskManagement.Application.Extensions;
 using TaskManagement.Domain.Models;
 using TaskManagement.Infrastructure.Context;
@@ -26,6 +27,7 @@ builder.Services.AddDbContext<TaskManagementContext>(options =>
 builder.Services.AddMediatR(options =>
 {
 	options.RegisterServicesFromAssemblies(typeof(Comment).Assembly);
+	options.RegisterServicesFromAssemblies(typeof(CreateCommentCommand).Assembly);
 });
 
 builder.Services.RegisterValidators();

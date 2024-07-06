@@ -1,23 +1,26 @@
 ﻿using FluentValidation;
 using MediatR;
+using TaskManagement.Application.Mappings;
 using TaskManagement.Domain.Interfaces;
-using TaskManagement.Domain.Models;
 
 namespace TaskManagement.Application.Comments.Commands
 {
 	public class CreateCommentCommand : IRequest
 	{
-		public Comment Comment { get; private set; }
+		public long AssigmentId { get; private set; }
+		public long UserId { get; private set; }
+		public string CommentText { get; private set; } = string.Empty;
+		public long? CommentId { get; private set; }
 
-		public static Comment Create(Comment comment)
+
+		public static CreateCommentCommand Create(long assignmentId, long userId, string text, long? commentId = null)
 		{
-			return new Comment
+			return new CreateCommentCommand
 			{
-				CommentText = comment.CommentText,
-				IsHidden = false,
-				Comments = comment.Comments,
-				UserId = comment.UserId,
-				AssignmentId = comment.AssignmentId
+				AssigmentId = assignmentId,
+				UserId = userId,
+				CommentText = text,
+				CommentId = commentId
 			};
 		}
 	}
@@ -26,16 +29,16 @@ namespace TaskManagement.Application.Comments.Commands
 	{
 		public CreateCommentValidator()
 		{
-			RuleFor(x => x.Comment.UserId)
+			RuleFor(x => x.UserId)
 				.LessThanOrEqualTo(0)
 				.WithMessage("Comment must relate with someone user.");
 
-			RuleFor(x => x.Comment.AssignmentId)
+			RuleFor(x => x.AssigmentId)
 				.LessThanOrEqualTo(0)
 				.WithMessage("Comment must relate with some task.");
 
-			RuleFor(x => x.Comment.CommentText).NotEmpty()
-			.WithMessage(x => $"{x.Comment} cannot be empty.");
+			RuleFor(x => x.CommentText).NotEmpty()
+			.WithMessage(x => $"{x.CommentText} cannot be empty.");
 		}
 	}
 
@@ -52,7 +55,8 @@ namespace TaskManagement.Application.Comments.Commands
 		//private readonly ILogger
 		public async Task Handle(CreateCommentCommand request, CancellationToken cancellationToken)
 		{
-			await _commentService.CreateComment(request.Comment);
+			var comment = request.ToModel();
+			await _commentService.CreateComment(comment);
 		}
 	}
 }
