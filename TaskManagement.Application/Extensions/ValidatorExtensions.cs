@@ -9,6 +9,7 @@ namespace TaskManagement.Application.Extensions
 		public static IServiceCollection RegisterValidators(this IServiceCollection services)
 		{
 			services.AddScoped<IValidator<CreateCommentCommand>, CreateCommentValidator>();
+			services.AddScoped<IValidator<HideCommentCommand>, HideCommentValidator>();
 
 			return services;
 		}

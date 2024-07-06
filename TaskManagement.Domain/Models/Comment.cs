@@ -9,6 +9,8 @@
 		//If it's true soft delete the comment and hidde from UI list
 		public bool IsHidden { get; set; }
 		public ICollection<Comment>? Comments { get; set; }
+		public DateTime CreatedAt { get; set; }
+		public DateTime? UpdatedAt { get; set; }
 		public Assignment Assignment { get; set; }
 		public User User { get; set; }
 	}

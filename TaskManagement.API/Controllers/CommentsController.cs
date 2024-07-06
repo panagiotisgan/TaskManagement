@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TaskManagement.Domain.Models;
+using TaskManagement.Application.Comments.Commands;
 
 namespace TaskManagement.API.Controllers
 {
@@ -8,18 +8,41 @@ namespace TaskManagement.API.Controllers
 	[ApiController]
 	public class CommentsController : ControllerBase
 	{
-		private readonly IMediator mediator;
+		private readonly IMediator _mediator;
 
 		public CommentsController(IMediator mediator)
 		{
-			this.mediator = mediator;
+			_mediator = mediator;
 		}
 
 
-		[HttpPost]
-		public async Task<ActionResult> CreateComment([FromBody] Comment comment)
+
+		//[HttpGet("GetComments")]
+		//public async Task<ActionResult> GetComments()
+		//{
+		//	throw new NotImplementedException();
+		//}
+
+		[HttpPut("hideComment/{commentId}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+		[ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+		public async Task<ActionResult> HideComment([FromRoute] long commentId)
 		{
-			throw new NotImplementedException();
+			var request = HideCommentCommand.Create(commentId);
+
+			await _mediator.Send(request);
+
+			return Ok();
+		}
+
+		[HttpPost]
+		public async Task<ActionResult> CreateComment([FromBody] TaskManagement.Domain.Shared.Comment comment, [FromQuery] long? commentId)
+		{
+			var command = CreateCommentCommand.Create(comment.AssignmentId, comment.UserId, comment.CommentText, commentId);
+			await _mediator.Send(command);
+
+			return Ok();
 		}
 
 		[HttpGet]
