@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Domain.Interfaces;
+using TaskManagement.Domain.Interfaces.Log;
 using TaskManagement.Infrastructure.Services;
 
 namespace TaskManagement.Infrastructure.Extensions
@@ -9,6 +10,7 @@ namespace TaskManagement.Infrastructure.Extensions
 		public static IServiceCollection RegisterServices(this IServiceCollection services)
 		{
 			services.AddTransient<ICommentService, CommentService>();
+			services.AddTransient<ILogService, LogService>();
 			return services;
 		}
 	}

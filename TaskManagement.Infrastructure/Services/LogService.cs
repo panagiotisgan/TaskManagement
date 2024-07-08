@@ -24,7 +24,7 @@ namespace TaskManagement.Infrastructure.Services
 
 			var logEntity = new Log { AssignmentId = assigmentId, ModificationDate = DateTime.UtcNow, PreviousTaskState = JsonConvert.SerializeObject(currentAssigmentState) };
 
-			_context.Logs.Add(logEntity);
+			//_context.Logs.Add(logEntity);
 
 			var numberOfWrites = await _context.SaveChangesAsync();
 

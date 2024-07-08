@@ -11,7 +11,6 @@ namespace TaskManagement.Domain.Models
 		public IEnumerable<Assignment> Assignments { get; set; } = Enumerable.Empty<Assignment>();
 		public IEnumerable<Team> Teams { get; set; } = Enumerable.Empty<Team>();
 		public IEnumerable<Comment> Comments { get; set; } = Enumerable.Empty<Comment>();
-		public UserTask UserTask { get; set; }
 		public TeamUser TeamUser { get; set; }
 	}
 }

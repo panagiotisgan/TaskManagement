@@ -3,6 +3,7 @@
 	public class Assignment : Entity
 	{
 		public string Name { get; set; } = string.Empty;
+		public long? UserId { get; set; }
 		public string? Description { get; set; }
 		public Priority Priority { get; set; }
 		public Status Status { get; set; }
@@ -15,7 +16,7 @@
 		public IEnumerable<Comment>? Comments { get; set; }
 		public IEnumerable<Log>? Logs { get; set; }
 		//public IEnumerable<User>? Users { get; set; }
-		public UserTask UserTask { get; set; }
+		public User User { get; set; }
 
 	}
 

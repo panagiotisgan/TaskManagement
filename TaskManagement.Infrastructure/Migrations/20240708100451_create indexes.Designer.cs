@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using TaskManagement.Infrastructure.Context;
 namespace TaskManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    partial class TaskManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240708100451_create indexes")]
+    partial class createindexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,6 +211,22 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("TaskManagement.Domain.Models.UserTask", b =>
+                {
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AssignmentId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("UserId", "AssignmentId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserTask");
+                });
+
             modelBuilder.Entity("TaskManagement.Domain.Models.Assignment", b =>
                 {
                     b.HasOne("TaskManagement.Domain.Models.User", "User")
@@ -264,6 +283,15 @@ namespace TaskManagement.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TaskManagement.Domain.Models.UserTask", b =>
+                {
+                    b.HasOne("TaskManagement.Domain.Models.User", null)
+                        .WithOne("UserTask")
+                        .HasForeignKey("TaskManagement.Domain.Models.UserTask", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TaskManagement.Domain.Models.Assignment", b =>
                 {
                     b.Navigation("Comments");
@@ -287,6 +315,9 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("TeamUser")
+                        .IsRequired();
+
+                    b.Navigation("UserTask")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
