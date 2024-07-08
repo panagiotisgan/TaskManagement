@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using TaskManagement.Infrastructure.Context;
 namespace TaskManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    partial class TaskManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240708095839_drop tables to recreate indexes")]
+    partial class droptablestorecreateindexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,14 +63,9 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Assignments");
                 });
@@ -100,9 +98,6 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AssignmentId");
@@ -111,36 +106,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasIndex("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.Models.Log", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("AssignmentId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("ModificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PreviousTaskState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id", "AssignmentId");
-
-                    b.HasIndex("AssignmentId");
-
-                    b.HasIndex("Id");
-
-                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Team", b =>
@@ -173,48 +139,20 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.HasIndex("TeamId")
                         .IsUnique();
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
                     b.ToTable("TeamUser");
                 });
 
-            modelBuilder.Entity("TaskManagement.Domain.Models.User", b =>
+            modelBuilder.Entity("TaskManagement.Domain.Models.UserTask", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    b.Property<long>("AssignmentId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("DisplayName")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("UserId", "AssignmentId");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHashed")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ViewLevel")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.Models.Assignment", b =>
-                {
-                    b.HasOne("TaskManagement.Domain.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
+                    b.ToTable("UserTask");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Comment", b =>
@@ -229,24 +167,7 @@ namespace TaskManagement.Infrastructure.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("CommentId");
 
-                    b.HasOne("TaskManagement.Domain.Models.User", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Assignment");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.Models.Log", b =>
-                {
-                    b.HasOne("TaskManagement.Domain.Models.Assignment", null)
-                        .WithMany("Logs")
-                        .HasForeignKey("AssignmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.TeamUser", b =>
@@ -256,19 +177,11 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasForeignKey("TaskManagement.Domain.Models.TeamUser", "TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("TaskManagement.Domain.Models.User", null)
-                        .WithOne("TeamUser")
-                        .HasForeignKey("TaskManagement.Domain.Models.TeamUser", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Assignment", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Logs");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Comment", b =>
@@ -278,14 +191,6 @@ namespace TaskManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Team", b =>
                 {
-                    b.Navigation("TeamUser")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.Models.User", b =>
-                {
-                    b.Navigation("Comments");
-
                     b.Navigation("TeamUser")
                         .IsRequired();
                 });

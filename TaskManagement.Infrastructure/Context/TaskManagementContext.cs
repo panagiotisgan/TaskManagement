@@ -19,6 +19,7 @@ namespace TaskManagement.Infrastructure.Context
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			#region Comment
 			modelBuilder.Entity<Comment>()
 				.HasIndex(e => e.Id);
 
@@ -37,7 +38,9 @@ namespace TaskManagement.Infrastructure.Context
 			modelBuilder.Entity<Comment>()
 				.HasOne<User>(x => x.User)
 				.WithMany(x => x.Comments);
+			#endregion
 
+			#region Assigments
 			modelBuilder.Entity<Assignment>()
 				.HasIndex(x => x.Id);
 
@@ -57,12 +60,15 @@ namespace TaskManagement.Infrastructure.Context
 
 			modelBuilder.Entity<Assignment>()
 				.HasMany(x => x.Logs);
+			#endregion
 
-			//modelBuilder.Entity<Domain.Models.Task>()
-			//    .HasMany(x => x.Comments);
-
+			#region Logs
 			modelBuilder.Entity<Log>()
 				.HasKey(x => new { x.Id, x.AssignmentId });
+
+			modelBuilder.Entity<Log>()
+				.Property(x => x.Id)
+				.ValueGeneratedOnAdd();
 
 			modelBuilder.Entity<Log>()
 				.HasIndex(x => x.AssignmentId);
@@ -76,13 +82,16 @@ namespace TaskManagement.Infrastructure.Context
 
 			modelBuilder.Entity<Log>()
 				.Property(x => x.ModificationDate);
+			#endregion
+
+
+			#region User
+			modelBuilder.Entity<User>()
+				.HasIndex(x => x.Id);
 
 			modelBuilder.Entity<User>().Ignore(x => x.Assignments);
 			modelBuilder.Entity<User>().Ignore(x => x.Teams);
-			modelBuilder.Entity<Assignment>().Ignore(x => x.UserTask);
-
-			modelBuilder.Entity<UserTask>()
-					.HasKey(x => new { x.UserId, x.AssignmentId });
+			#endregion
 
 			modelBuilder.Entity<Team>().Ignore(x => x.Users);
 
