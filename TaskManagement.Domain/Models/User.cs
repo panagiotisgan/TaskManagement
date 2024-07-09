@@ -1,12 +1,11 @@
-﻿using TaskManagement.Domain.Enums;
+﻿using Microsoft.AspNetCore.Identity;
+using TaskManagement.Domain.Enums;
 
 namespace TaskManagement.Domain.Models
 {
-	public class User : Entity
+	public class User : IdentityUser
 	{
-		public string Email { get; set; } = string.Empty;
 		public string? DisplayName { get; set; }
-		public string PasswordHashed { get; set; } = string.Empty;
 		public ViewLevel ViewLevel { get; set; }
 		public IEnumerable<Assignment> Assignments { get; set; } = Enumerable.Empty<Assignment>();
 		public IEnumerable<Team> Teams { get; set; } = Enumerable.Empty<Team>();
