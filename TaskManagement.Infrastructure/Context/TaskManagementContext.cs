@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TaskManagement.Domain.Models;
 
 namespace TaskManagement.Infrastructure.Context
 {
-	public class TaskManagementContext : DbContext
+	public class TaskManagementContext : IdentityDbContext<User>
 	{
 		public TaskManagementContext(DbContextOptions<TaskManagementContext> options)
 			: base(options)
@@ -14,14 +15,20 @@ namespace TaskManagement.Infrastructure.Context
 		public virtual DbSet<Assignment> Assignments { get; set; }
 		public virtual DbSet<Comment> Comments { get; set; }
 		public virtual DbSet<Log> Logs { get; set; }
-		public virtual DbSet<User> Users { get; set; }
+		//public virtual DbSet<User> Users { get; set; }
 		public virtual DbSet<Team> Teams { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
+
 			#region Comment
 			modelBuilder.Entity<Comment>()
 				.HasIndex(e => e.Id);
+
+			//modelBuilder.Entity<Comment>()
+			//	.Property(x => x.UserId);
+
 
 			modelBuilder.Entity<Comment>()
 				.Property(x => x.CommentText)
@@ -38,6 +45,9 @@ namespace TaskManagement.Infrastructure.Context
 			modelBuilder.Entity<Comment>()
 				.HasOne<User>(x => x.User)
 				.WithMany(x => x.Comments);
+
+			modelBuilder.Entity<Comment>()
+				.Ignore(x => x.User);
 			#endregion
 
 			#region Assigments
@@ -60,6 +70,9 @@ namespace TaskManagement.Infrastructure.Context
 
 			modelBuilder.Entity<Assignment>()
 				.HasMany(x => x.Logs);
+
+			modelBuilder.Entity<Assignment>()
+				.Ignore(x => x.User);
 			#endregion
 
 			#region Logs
@@ -86,8 +99,8 @@ namespace TaskManagement.Infrastructure.Context
 
 
 			#region User
-			modelBuilder.Entity<User>()
-				.HasIndex(x => x.Id);
+			//modelBuilder.Entity<User>()
+			//	.HasIndex(x => x.Id);
 
 			modelBuilder.Entity<User>().Ignore(x => x.Assignments);
 			modelBuilder.Entity<User>().Ignore(x => x.Teams);

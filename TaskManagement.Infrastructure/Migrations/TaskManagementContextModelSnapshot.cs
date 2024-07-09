@@ -69,7 +69,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Assignments");
+                    b.ToTable("Assignments", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Comment", b =>
@@ -113,7 +113,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Log", b =>
@@ -140,7 +140,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasIndex("Id");
 
-                    b.ToTable("Logs");
+                    b.ToTable("Logs", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Team", b =>
@@ -157,7 +157,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Teams", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.TeamUser", b =>
@@ -176,7 +176,7 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("TeamUser");
+                    b.ToTable("TeamUser", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.User", b =>
@@ -205,7 +205,7 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasIndex("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Assignment", b =>

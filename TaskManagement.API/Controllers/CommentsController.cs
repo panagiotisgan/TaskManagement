@@ -44,11 +44,5 @@ namespace TaskManagement.API.Controllers
 
 			return Ok();
 		}
-
-		[HttpGet]
-		public ActionResult TestEndpoint()
-		{
-			return Ok("working");
-		}
 	}
 }
