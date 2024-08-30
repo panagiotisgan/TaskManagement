@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using TaskManagement.Infrastructure.Context;
 namespace TaskManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    partial class TaskManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240830140958_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,9 +196,8 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -298,9 +300,8 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<long>("TeamId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("TeamId", "UserId");
 
@@ -358,6 +359,12 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("TeamUserTeamId")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("TeamUserUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -377,6 +384,8 @@ namespace TaskManagement.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("TeamUserTeamId", "TeamUserUserId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -471,6 +480,17 @@ namespace TaskManagement.Infrastructure.Migrations
                         .HasForeignKey("TaskManagement.Domain.Models.TeamUser", "TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TaskManagement.Domain.Models.User", b =>
+                {
+                    b.HasOne("TaskManagement.Domain.Models.TeamUser", "TeamUser")
+                        .WithMany()
+                        .HasForeignKey("TeamUserTeamId", "TeamUserUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TeamUser");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Assignment", b =>
