@@ -61,7 +61,7 @@ namespace TaskManagement.Infrastructure.Context
 			modelBuilder.Entity<Assignment>()
 				.Property(x => x.Name)
 				.IsRequired()
-				.HasMaxLength(180);
+				.HasMaxLength(200);
 
 			modelBuilder.Entity<Assignment>()
 				.Property(x => x.UserId)

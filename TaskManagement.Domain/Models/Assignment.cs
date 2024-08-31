@@ -11,9 +11,9 @@ namespace TaskManagement.Domain.Models
 		public Status Status { get; set; }
 		public SeverityLevel SeverityLevel { get; set; }
 		//Deadline
-		public string? NeedBy { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
+		public string? NeedBy { get; set; } = string.Empty;
+		public DateTime? StartDate { get; set; }
+		public DateTime? EndDate { get; set; }
 		public byte[]? Attachements { get; set; }
 		public IEnumerable<Comment>? Comments { get; set; }
 		public IEnumerable<Log>? Logs { get; set; }
