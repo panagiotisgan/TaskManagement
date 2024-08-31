@@ -8,17 +8,17 @@ namespace TaskManagement.Application.Assignment.Commands
 	public class CreateAssigmentCommand : IRequest<TaskManagement.Domain.Models.Assignment>
 	{
 		public string Name { get; private set; } = string.Empty;
-		public long? UserId { get; private set; }
+		public string? UserId { get; private set; }
 		public string? Description { get; private set; }
 		public Priority Priority { get; private set; }
 		public Status Status { get; private set; }
 		public SeverityLevel SeverityLevel { get; private set; }
 		public string? NeedBy { get; private set; }
-		public DateTime StartDate { get; private set; }
-		public DateTime EndDate { get; private set; }
+		public DateTime? StartDate { get; private set; }
+		public DateTime? EndDate { get; private set; }
 		public byte[]? Attachements { get; private set; }
 
-		public static CreateAssigmentCommand Create(string name, string description, int priority, int status, int severityLevel, string needBy, DateTime startDate, DateTime endDate, long? userId, byte[]? attatchements)
+		public static CreateAssigmentCommand Create(string name, string description, int priority, int status, int severityLevel, string needBy, DateTime? startDate, DateTime? endDate, string? userId, byte[]? attatchements)
 		{
 			return new CreateAssigmentCommand
 			{

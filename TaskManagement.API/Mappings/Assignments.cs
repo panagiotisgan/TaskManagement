@@ -6,7 +6,6 @@
 		{
 			return new Domain.Shared.Assignment()
 			{
-				Id = assignment.Id,
 				Description = assignment.Description,
 				Name = assignment.Name,
 				Priority = (int)assignment.Priority,

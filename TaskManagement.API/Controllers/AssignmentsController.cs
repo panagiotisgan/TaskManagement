@@ -33,12 +33,12 @@ namespace TaskManagement.API.Controllers
 			return Ok(result.ToDto());
 		}
 
-		[HttpPut]
+		[HttpPut("update/{id}")]
 		[ProducesResponseType(typeof(Domain.Shared.Assignment), StatusCodes.Status200OK)]
-		public async Task<ActionResult> Update([FromBody] Assignment assignment)
+		public async Task<ActionResult> Update([FromBody] Assignment assignment, string id)
 		{
 			var request = UpdateAssignmentCommand.Create(
-				assignment.Id, assignment.Name,
+				Convert.ToInt64(id), assignment.Name,
 				assignment.Description, assignment.Priority,
 				assignment.Status, assignment.SeverityLevel,
 				assignment.NeedBy, assignment.StartDate,

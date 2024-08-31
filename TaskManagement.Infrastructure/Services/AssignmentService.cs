@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManagement.Domain.Enums;
 using TaskManagement.Domain.Interfaces.Assigment;
 using TaskManagement.Domain.Models;
 using TaskManagement.Infrastructure.Context;
@@ -30,16 +29,17 @@ namespace TaskManagement.Infrastructure.Services
 			if (result == null)
 				throw new Exception($"The assignment with Id: {assignment.Id} does not exist");
 
-			result.Status = Enum.Parse<Status>(assignment.Status.ToString());
-			result.SeverityLevel = Enum.Parse<SeverityLevel>(assignment.SeverityLevel.ToString());
-			result.Priority = Enum.Parse<Priority>(assignment.Priority.ToString());
-			result.Attachements = assignment.Attachements;
-			result.Description = assignment.Description;
-			result.EndDate = assignment.EndDate;
-			result.StartDate = assignment.StartDate;
-			result.NeedBy = assignment.NeedBy;
-			result.UserId = assignment.UserId;
-			result.Name = assignment.Name;
+
+			result.Status = Enum.Equals(assignment.Status, result.Status) ? result.Status : assignment.Status;
+			result.SeverityLevel = Enum.Equals(assignment.SeverityLevel, result.SeverityLevel) ? result.SeverityLevel : assignment.SeverityLevel;
+			result.Priority = Enum.Equals(assignment.Priority, result.Priority) ? result.Priority : assignment.Priority;
+			result.Attachements = assignment.Attachements ?? result.Attachements;
+			result.Description = assignment.Description ?? result.Description;
+			result.EndDate = assignment.EndDate ?? result.EndDate;
+			result.StartDate = assignment.StartDate ?? result.StartDate;
+			result.NeedBy = assignment.NeedBy ?? result.NeedBy;
+			result.UserId = assignment.UserId ?? result.UserId;
+			result.Name = assignment.Name ?? result.Name;
 
 			await _context.SaveChangesAsync();
 
