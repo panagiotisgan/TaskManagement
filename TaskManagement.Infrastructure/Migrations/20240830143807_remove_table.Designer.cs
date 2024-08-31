@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using TaskManagement.Infrastructure.Context;
 namespace TaskManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    partial class TaskManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240830143807_remove_table")]
+    partial class remove_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,23 +296,6 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("TaskManagement.Domain.Models.TeamUser", b =>
-                {
-                    b.Property<long>("TeamId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("TeamId", "UserId");
-
-                    b.HasIndex("TeamId")
-                        .IsUnique();
-
-                    b.ToTable("TeamUser");
-                });
-
             modelBuilder.Entity("TaskManagement.Domain.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -464,15 +450,6 @@ namespace TaskManagement.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskManagement.Domain.Models.TeamUser", b =>
-                {
-                    b.HasOne("TaskManagement.Domain.Models.Team", null)
-                        .WithOne("TeamUser")
-                        .HasForeignKey("TaskManagement.Domain.Models.TeamUser", "TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TaskManagement.Domain.Models.Assignment", b =>
                 {
                     b.Navigation("Comments");
@@ -483,12 +460,6 @@ namespace TaskManagement.Infrastructure.Migrations
             modelBuilder.Entity("TaskManagement.Domain.Models.Comment", b =>
                 {
                     b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("TaskManagement.Domain.Models.Team", b =>
-                {
-                    b.Navigation("TeamUser")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.User", b =>

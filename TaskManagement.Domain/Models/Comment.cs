@@ -4,7 +4,7 @@
 	public class Comment : Entity
 	{
 		public long AssignmentId { get; set; }
-		public Guid UserId { get; set; }
+		//public Guid UserId { get; set; }
 		public string CommentText { get; set; } = string.Empty;
 		//If it's true soft delete the comment and hidde from UI list
 		public bool IsHidden { get; set; }

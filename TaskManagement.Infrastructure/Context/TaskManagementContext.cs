@@ -29,7 +29,6 @@ namespace TaskManagement.Infrastructure.Context
 			//modelBuilder.Entity<Comment>()
 			//	.Property(x => x.UserId);
 
-
 			modelBuilder.Entity<Comment>()
 				.Property(x => x.CommentText)
 				.IsRequired()
@@ -46,8 +45,8 @@ namespace TaskManagement.Infrastructure.Context
 				.HasOne<User>(x => x.User)
 				.WithMany(x => x.Comments);
 
-			modelBuilder.Entity<Comment>()
-				.Ignore(x => x.User);
+			//modelBuilder.Entity<Comment>()
+			//	.Ignore(x => x.User);
 			#endregion
 
 			#region Assigments
@@ -63,6 +62,10 @@ namespace TaskManagement.Infrastructure.Context
 				.Property(x => x.Name)
 				.IsRequired()
 				.HasMaxLength(25);
+
+			modelBuilder.Entity<Assignment>()
+				.Property(x => x.UserId)
+				.HasMaxLength(450);
 
 			modelBuilder.Entity<Assignment>()
 				.Property(x => x.NeedBy)
@@ -104,9 +107,14 @@ namespace TaskManagement.Infrastructure.Context
 
 			modelBuilder.Entity<User>().Ignore(x => x.Assignments);
 			modelBuilder.Entity<User>().Ignore(x => x.Teams);
+			modelBuilder.Entity<User>().Ignore(x => x.TeamUser);
 			#endregion
 
 			modelBuilder.Entity<Team>().Ignore(x => x.Users);
+
+			modelBuilder.Entity<TeamUser>()
+				.Property(x => x.UserId)
+				.HasMaxLength(450);
 
 			modelBuilder.Entity<TeamUser>()
 					.HasKey(x => new { x.TeamId, x.UserId });
