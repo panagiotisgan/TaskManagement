@@ -25,7 +25,8 @@ jobs:
       run: dotnet --version
     - name: Restore dependencies
       run: dotnet restore TaskManagement.sln
-    - name: Build
-      run: dotnet build --no-restore
+     # Comment out not need it , we need if we want specidy some project not restore
+     # - name: Build
+     #  run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
