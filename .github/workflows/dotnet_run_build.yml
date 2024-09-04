@@ -22,7 +22,7 @@ jobs:
         dotnet-version: 8.0.x
     # You can test your matrix by printing the current dotnet version
     - name: Display dotnet version
-      run: .NET --version
+      run: dotnet --version
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
