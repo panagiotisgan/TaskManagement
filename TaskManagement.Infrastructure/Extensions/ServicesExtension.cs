@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Domain.Interfaces;
-using TaskManagement.Domain.Interfaces.Log;
+using TaskManagement.Domain.Interfaces.Logger;
 using TaskManagement.Infrastructure.Services;
 
 namespace TaskManagement.Infrastructure.Extensions

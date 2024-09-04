@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.Comments.Commands;
-using TaskManagement.Application.Logs.Commands;
+using TaskManagement.Application.Logger.Commands;
 
 namespace TaskManagement.Application.Extensions
 {
@@ -11,7 +11,7 @@ namespace TaskManagement.Application.Extensions
 		{
 			services.AddScoped<IValidator<CreateCommentCommand>, CreateCommentValidator>();
 			services.AddScoped<IValidator<HideCommentCommand>, HideCommentValidator>();
-			services.AddScoped<IValidator<CreateLogCommand>, CreateLogValidator>();
+			//services.AddScoped<IValidator<CreateLogCommand>, CreateLogValidator>();
 
 			return services;
 		}

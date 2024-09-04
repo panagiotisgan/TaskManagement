@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TaskManagement.Application.Logs.Commands;
+using TaskManagement.Application.Logger.Commands;
 
 namespace TaskManagement.API.Controllers
 {

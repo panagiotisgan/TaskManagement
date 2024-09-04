@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using TaskManagement.Domain.Interfaces.Log;
+using TaskManagement.Domain.Interfaces.Logger;
 using TaskManagement.Domain.Models;
 using TaskManagement.Infrastructure.Context;
 
