@@ -29,7 +29,7 @@ jobs:
      # - name: Build
      #  run: dotnet build --no-restore
     - name: Test
-      run: dotnet test ~ /Development/TaskManagement/TaskManagement.Infrastracture.Test/TaskManagement.Infrastracture.Test.csproj
+      run: dotnet test C:/Development/TaskManagement/TaskManagement.Infrastracture.Test/TaskManagement.Infrastracture.Test.csproj
     # create by github template
     #- name: Test
     #  run: dotnet test --no-build --verbosity normal
