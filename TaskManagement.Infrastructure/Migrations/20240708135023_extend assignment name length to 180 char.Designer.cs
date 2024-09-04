@@ -12,8 +12,8 @@ using TaskManagement.Infrastructure.Context;
 namespace TaskManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    [Migration("20240706145953_add updateAt and CreateAt to comment")]
-    partial class addupdateAtandCreateAttocomment
+    [Migration("20240708135023_extend assignment name length to 180 char")]
+    partial class extendassignmentnamelengthto180char
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,8 +45,8 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(180)
+                        .HasColumnType("nvarchar(180)");
 
                     b.Property<string>("NeedBy")
                         .HasColumnType("nvarchar(max)");
@@ -63,9 +63,14 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Assignments");
                 });
@@ -117,7 +122,10 @@ namespace TaskManagement.Infrastructure.Migrations
             modelBuilder.Entity("TaskManagement.Domain.Models.Log", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<long>("AssignmentId")
                         .HasColumnType("bigint");
@@ -198,23 +206,18 @@ namespace TaskManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Id");
+
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TaskManagement.Domain.Models.UserTask", b =>
+            modelBuilder.Entity("TaskManagement.Domain.Models.Assignment", b =>
                 {
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.HasOne("TaskManagement.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
-                    b.Property<long>("AssignmentId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("UserId", "AssignmentId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserTask");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TaskManagement.Domain.Models.Comment", b =>
@@ -264,15 +267,6 @@ namespace TaskManagement.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskManagement.Domain.Models.UserTask", b =>
-                {
-                    b.HasOne("TaskManagement.Domain.Models.User", null)
-                        .WithOne("UserTask")
-                        .HasForeignKey("TaskManagement.Domain.Models.UserTask", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TaskManagement.Domain.Models.Assignment", b =>
                 {
                     b.Navigation("Comments");
@@ -296,9 +290,6 @@ namespace TaskManagement.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("TeamUser")
-                        .IsRequired();
-
-                    b.Navigation("UserTask")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

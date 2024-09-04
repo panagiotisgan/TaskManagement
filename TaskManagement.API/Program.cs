@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using TaskManagement.Application.Comments.Commands;
 using TaskManagement.Application.Extensions;
 using TaskManagement.Domain.Models;
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<TaskManagementContext>(options =>
 	var databaseName = sqlSettings.GetValue<string>("DatabaseName");
 	string connectionString = string.Format(builder.Configuration.GetConnectionString("SQLServer")!, serverName, databaseName);
 
-	Console.WriteLine(connectionString);
+	//Console.WriteLine(connectionString);
 
 	options.UseSqlServer(connectionString, b => b.MigrationsAssembly("TaskManagement.Infrastructure"));
 });
@@ -39,12 +40,37 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(sw =>
+{
+	var securitySchema = new OpenApiSecurityScheme
+	{
+		Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+		Name = "Authorization",
+		In = ParameterLocation.Header,
+		Type = SecuritySchemeType.Http,
+		Scheme = "bearer",
+		Reference = new OpenApiReference
+		{
+			Type = ReferenceType.SecurityScheme,
+			Id = "Bearer"
+		}
+	};
+
+	sw.AddSecurityDefinition("Bearer", securitySchema);
+
+	var securityRequirement = new OpenApiSecurityRequirement();
+	securityRequirement.Add(securitySchema, new[] { "Bearer" });
+	sw.AddSecurityRequirement(securityRequirement);
+});
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication().AddBearerToken("Bearer");
+builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
 
-builder.Services.AddIdentityCore<User>()
+builder.Services.AddIdentityCore<User>(options =>
+{
+	options.Password.RequireNonAlphanumeric = false;
+	options.Password.RequiredLength = 7;
+})
 	.AddEntityFrameworkStores<TaskManagementContext>()
 	.AddApiEndpoints();
 
