@@ -24,8 +24,14 @@ jobs:
     - name: Display dotnet version
       run: dotnet --version
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore TaskManagement.sln
+     # Comment out not need it , we need if we want specidy some project not restore
+     # - name: Build
+     #  run: dotnet build --no-restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build TaskManagement.sln --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test TaskManagement.sln --no-build --verbosity normal
+    # create by github template
+    #- name: Test
+    #  run: dotnet test --no-build --verbosity normal
