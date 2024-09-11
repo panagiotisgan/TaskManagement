@@ -2,7 +2,7 @@
 using MediatR;
 using TaskManagement.Domain.Interfaces.Logger;
 
-namespace TaskManagement.Application.Logs.Commands
+namespace TaskManagement.Application.Loggers.Commands
 {
 	public class CreateLogCommand : IRequest<long>
 	{
