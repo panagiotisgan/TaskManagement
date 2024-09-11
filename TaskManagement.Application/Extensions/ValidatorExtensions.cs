@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManagement.Application.Comments.Commands;
-using TaskManagement.Application.Logger.Commands;
 
 namespace TaskManagement.Application.Extensions
 {
