@@ -18,5 +18,10 @@
 				Attachements = assignment.Attachements
 			};
 		}
+
+		public static IEnumerable<Domain.Shared.Assignment> ToDto(this IEnumerable<Domain.Models.Assignment> assignments)
+		{
+			return assignments.Select(x=>x.ToDto());
+		}
 	}
 }

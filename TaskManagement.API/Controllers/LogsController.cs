@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Application.Loggers.Commands;
 
@@ -23,6 +24,13 @@ namespace TaskManagement.API.Controllers
 			var result = await _mediator.Send(request);
 
 			return Ok(result);
+		}
+
+		[HttpGet("GetSafeResources")]
+		[Authorize]
+		public ActionResult FakeAuthorizedEndPoint()
+		{
+			return Ok("You are authorized");
 		}
 
 	}

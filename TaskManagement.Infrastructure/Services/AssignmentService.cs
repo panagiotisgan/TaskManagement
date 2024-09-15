@@ -29,10 +29,9 @@ namespace TaskManagement.Infrastructure.Services
 			if (result == null)
 				throw new Exception($"The assignment with Id: {assignment.Id} does not exist");
 
-
-			result.Status = Enum.Equals(assignment.Status, result.Status) ? result.Status : assignment.Status;
-			result.SeverityLevel = Enum.Equals(assignment.SeverityLevel, result.SeverityLevel) ? result.SeverityLevel : assignment.SeverityLevel;
-			result.Priority = Enum.Equals(assignment.Priority, result.Priority) ? result.Priority : assignment.Priority;
+            result.Status = Enum.Equals(assignment.Status, result.Status) || (int)assignment.Status == 0  ? result.Status : assignment.Status;
+			result.SeverityLevel = Enum.Equals(assignment.SeverityLevel, result.SeverityLevel) || (int)assignment.SeverityLevel == 0 ? result.SeverityLevel : assignment.SeverityLevel;
+			result.Priority = Enum.Equals(assignment.Priority, result.Priority) || (int)assignment.Priority == 0 ? result.Priority : assignment.Priority;
 			result.Attachements = assignment.Attachements ?? result.Attachements;
 			result.Description = assignment.Description ?? result.Description;
 			result.EndDate = assignment.EndDate ?? result.EndDate;

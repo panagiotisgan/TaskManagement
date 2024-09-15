@@ -4,7 +4,7 @@ namespace TaskManagement.Application.Mappings
 {
 	public static class AssignmentMappings
 	{
-		public static TaskManagement.Domain.Models.Assignment ToModel(this CreateAssigmentCommand request)
+		public static TaskManagement.Domain.Models.Assignment ToModel(this CreateAssignmentCommand request)
 		{
 			return new Domain.Models.Assignment
 			{

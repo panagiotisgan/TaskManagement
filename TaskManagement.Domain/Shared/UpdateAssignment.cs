@@ -3,8 +3,8 @@
 	public class UpdateAssignment
 	{
 		public long Id { get; set; }
-		public string? Name { get; set; } = string.Empty;
-		public long? UserId { get; set; }
+		public string? Name { get; set; }
+		public string? UserId { get; set; }
 		public string? Description { get; set; }
 		public int Priority { get; set; }
 		public int Status { get; set; }

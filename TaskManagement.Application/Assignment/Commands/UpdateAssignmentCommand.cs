@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using TaskManagement.Application.Mappings;
 using TaskManagement.Domain.Enums;
 using TaskManagement.Domain.Interfaces.Assigment;
@@ -39,6 +40,25 @@ namespace TaskManagement.Application.Assignment.Commands
 		}
 
 	}
+
+	public class UpdateAssignmentValidatror : AbstractValidator<UpdateAssignmentCommand>
+	{
+		public UpdateAssignmentValidatror()
+		{
+			RuleFor(x => (int)x.Priority)
+				.GreaterThan(3)
+				.WithMessage("Invalid Priority range");
+
+			RuleFor(x => (int)x.SeverityLevel)
+				.GreaterThan(5)
+				.WithMessage(x => $"Invalid {nameof(x.SeverityLevel)} range");
+
+			RuleFor(x => (int)x.Status)
+				.GreaterThan(5)
+				.WithMessage(x => $"Invalid {nameof(x.Status)} range");
+		}
+	}
+
 
 	public class UpdateAssignmentCommandHandler : IRequestHandler<UpdateAssignmentCommand, TaskManagement.Domain.Models.Assignment>
 	{
