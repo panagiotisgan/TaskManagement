@@ -2,6 +2,7 @@
 using TaskManagement.Domain.Interfaces;
 using TaskManagement.Domain.Interfaces.Assigment;
 using TaskManagement.Domain.Interfaces.Logger;
+using TaskManagement.Domain.Models;
 using TaskManagement.Infrastructure.Services;
 
 namespace TaskManagement.Infrastructure.Extensions
@@ -13,6 +14,7 @@ namespace TaskManagement.Infrastructure.Extensions
 			services.AddTransient<ICommentService, CommentService>();
 			services.AddTransient<ILogService, LogService>();
 			services.AddTransient<IAssigmentService, AssignmentService>();
+			services.AddTransient<IGenericReadRepository<Assignment>, AssignmentReadService>();
 			return services;
 		}
 	}

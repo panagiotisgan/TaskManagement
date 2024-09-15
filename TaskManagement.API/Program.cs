@@ -32,11 +32,12 @@ builder.Services.AddMediatR(options =>
 	options.RegisterServicesFromAssemblies(typeof(CreateCommentCommand).Assembly);
 });
 
-builder.Services.RegisterValidators();
 builder.Services.RegisterServices();
 
-
 builder.Services.AddControllers();
+
+builder.Services.RegisterValidators();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
