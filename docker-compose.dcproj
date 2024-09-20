@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>c9488e5b-e053-4fad-b9e1-08906e6b1b55</ProjectGuid>
+    <ProjectGuid>d67d7e94-1105-40ae-9a5f-c40ba6337151</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>taskmanagement.api</DockerServiceName>

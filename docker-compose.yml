@@ -1,18 +1,24 @@
-version: '4.0'
-
 services:
-  TaskManagement.Api:
-    image: ${DOCKER_REGISTRY-}taskmanagementapi
-    build:
-      context: .
-      dockerfile: TaskManagement.API/Dockerfile
+  sqldb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqldb
+    volumes:
+      - data:/sql/data
+    # environment:
+    #   ACCEPT_EULA: "Y"
+    #   SA_PASSWORD: "test123!!"
+    ports:
+      - 1433:1433
+    env_file:
+      - ./dockerenv/sql.env
+   
+  # taskmanagement.api:
+  #   image: ${DOCKER_REGISTRY-}taskmanagementapi
+  #   build:
+  #     context: .
+  #     dockerfile: TaskManagement.API/Dockerfile
+  #   depends_on:
+  #     - sqldb
 
-  db:
-   image: "mcr.microsoft.com/mssql/server:2019-latest"
-   ports:
-     - 1433:1433
-   volumes:
-      - db:/var/opt/mssql
 volumes:
-  db:
-    driver: local
+  data:
