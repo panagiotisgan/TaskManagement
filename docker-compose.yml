@@ -1,6 +1,9 @@
 services:
   sqldb:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    #image: now image created inside  dockerenv/Dockerfile
+    build: 
+      context: ./dockerenv
+      #dockerfile: sqlSetup
     container_name: sqldb
     volumes:
       - data:/sql/data
@@ -9,8 +12,6 @@ services:
     #   SA_PASSWORD: "test123!!"
     ports:
       - 1433:1433
-    env_file:
-      - ./dockerenv/sql.env
    
   # taskmanagement.api:
   #   image: ${DOCKER_REGISTRY-}taskmanagementapi
