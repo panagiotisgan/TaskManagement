@@ -8,12 +8,12 @@ namespace TaskManagement.Application.Comments.Commands
 	public class CreateCommentCommand : IRequest
 	{
 		public long AssigmentId { get; private set; }
-		public long UserId { get; private set; }
+		public string UserId { get; private set; } = string.Empty;
 		public string CommentText { get; private set; } = string.Empty;
 		public long? CommentId { get; private set; }
 
 
-		public static CreateCommentCommand Create(long assignmentId, long userId, string text, long? commentId = null)
+		public static CreateCommentCommand Create(long assignmentId, string userId, string text, long? commentId = null)
 		{
 			return new CreateCommentCommand
 			{
@@ -30,7 +30,7 @@ namespace TaskManagement.Application.Comments.Commands
 		public CreateCommentValidator()
 		{
 			RuleFor(x => x.UserId)
-				.LessThanOrEqualTo(0)
+				.NotEmpty()
 				.WithMessage("Comment must relate with someone user.");
 
 			RuleFor(x => x.AssigmentId)

@@ -1,6 +1,6 @@
 ﻿namespace TaskManagement.API.Mappings
 {
-	public static class Assignments
+	public static class AssignmentsMappings
 	{
 		public static Domain.Shared.Assignment ToDto(this Domain.Models.Assignment assignment)
 		{

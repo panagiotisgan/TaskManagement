@@ -1,6 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagement.API.Mappings;
 using TaskManagement.Application.Comments.Commands;
+using TaskManagement.Application.Comments.Queries;
+using TaskManagement.Domain.Shared;
 
 namespace TaskManagement.API.Controllers
 {
@@ -17,11 +20,14 @@ namespace TaskManagement.API.Controllers
 
 
 
-		//[HttpGet("GetComments")]
-		//public async Task<ActionResult> GetComments()
-		//{
-		//	throw new NotImplementedException();
-		//}
+		[HttpGet("GetComments/{assignmentId}")]
+        [ProducesResponseType(typeof(IEnumerable<Comment>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> GetComments(long assignmentId)
+		{
+			throw new NotImplementedException();
+		}
 
 		[HttpPut("hideComment/{commentId}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
@@ -44,5 +50,18 @@ namespace TaskManagement.API.Controllers
 
 			return Ok();
 		}
+
+		[HttpGet("{commentId}")]
+        [ProducesResponseType(typeof(Domain.Shared.GetComment),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetComment([FromRoute]long commentId)
+		{
+			var request = GetCommentById.Create(commentId);
+
+			var result = await _mediator.Send(request);
+
+			return Ok(result.ToDto());
+        }
 	}
 }

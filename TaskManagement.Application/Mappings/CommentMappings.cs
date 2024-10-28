@@ -10,7 +10,7 @@ namespace TaskManagement.Application.Mappings
 			return new Comment
 			{
 				IsHidden = false,
-				//UserId = command.UserId,
+				UserId = command.UserId,
 				AssignmentId = command.AssigmentId,
 				CommentText = command.CommentText
 			};

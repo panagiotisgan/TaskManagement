@@ -22,7 +22,12 @@ namespace TaskManagement.Infrastructure.Services
 			await _taskManagementContext.SaveChangesAsync();
 		}
 
-		public async Task HideComment(long commentId)
+        public async Task<Comment> GetComment(long id)
+        {
+            return await _taskManagementContext.Comments.SingleOrDefaultAsync(x=>x.Id == id);			 
+        }
+
+        public async Task HideComment(long commentId)
 		{
 			var result = await _taskManagementContext.Comments.FirstOrDefaultAsync(c => c.Id == commentId);
 
