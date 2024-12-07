@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskManagement.Domain.Common;
+using TaskManagement.Domain.Enums;
 using TaskManagement.Domain.Interfaces.Assigment;
 using TaskManagement.Domain.Models;
 using TaskManagement.Infrastructure.Context;
@@ -29,7 +31,7 @@ namespace TaskManagement.Infrastructure.Services
 			if (result == null)
 				throw new Exception($"The assignment with Id: {assignment.Id} does not exist");
 
-            result.Status = Enum.Equals(assignment.Status, result.Status) || (int)assignment.Status == 0  ? result.Status : assignment.Status;
+			result.Status = Enum.Equals(assignment.Status, result.Status) || (int)assignment.Status == 0 ? result.Status : assignment.Status;
 			result.SeverityLevel = Enum.Equals(assignment.SeverityLevel, result.SeverityLevel) || (int)assignment.SeverityLevel == 0 ? result.SeverityLevel : assignment.SeverityLevel;
 			result.Priority = Enum.Equals(assignment.Priority, result.Priority) || (int)assignment.Priority == 0 ? result.Priority : assignment.Priority;
 			result.Attachements = assignment.Attachements ?? result.Attachements;
@@ -43,6 +45,32 @@ namespace TaskManagement.Infrastructure.Services
 			await _context.SaveChangesAsync();
 
 			return result;
+		}
+
+		public async Task<PagedEnumerable<Assignment>> GetPagedAssigments(string? name, string? userId, string? priority, string? severityLevel, string? status, int page, int pageSize)
+		{
+			int total = 0;
+			var dbSet = _context.Assignments.AsQueryable();
+			var baseQuery = !string.IsNullOrWhiteSpace(name) ? dbSet.Where(x => x.Name == name) : dbSet;
+			baseQuery = !string.IsNullOrWhiteSpace(userId) ? baseQuery.Where(x => x.UserId == userId) : baseQuery;
+			baseQuery = Enum.TryParse(priority, true, out Priority priorityValue) ? baseQuery.Where(x => x.Priority == priorityValue) : baseQuery;
+			baseQuery = Enum.TryParse(severityLevel, true, out SeverityLevel severityValue) ? baseQuery.Where(x => x.SeverityLevel == severityValue) : baseQuery;
+			baseQuery = Enum.TryParse(status, true, out Status statusValue) ? baseQuery.Where(x => x.Status == statusValue) : baseQuery;
+
+			total = await baseQuery
+							.CountAsync();
+
+			return new PagedEnumerable<Assignment>
+			{
+				Items = await baseQuery
+						.Skip(page)
+						.Take(pageSize)
+						.OrderByDescending(x => x.Id)
+						.ToArrayAsync(),
+				Total = total,
+				Page = page,
+				PageSize = pageSize
+			};
 		}
 	}
 }

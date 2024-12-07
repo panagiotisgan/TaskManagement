@@ -4,7 +4,7 @@ using TaskManagement.Application.Mappings;
 using TaskManagement.Domain.Enums;
 using TaskManagement.Domain.Interfaces.Assigment;
 
-namespace TaskManagement.Application.Assignment.Commands
+namespace TaskManagement.Application.Assignments.Commands
 {
 	public class UpdateAssignmentCommand : IRequest<TaskManagement.Domain.Models.Assignment>
 	{

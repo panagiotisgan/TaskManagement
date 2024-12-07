@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using TaskManagement.Application.Assignment.Commands;
-using TaskManagement.Application.Assignment.Queries;
+using TaskManagement.Application.Assignments.Commands;
+using TaskManagement.Application.Assignments.Queries;
 using TaskManagement.Application.Comments.Commands;
 
 namespace TaskManagement.Application.Extensions
@@ -19,5 +19,5 @@ namespace TaskManagement.Application.Extensions
 
 			return services;
 		}
-    }
+	}
 }

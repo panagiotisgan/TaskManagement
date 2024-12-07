@@ -2,8 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement.API.Mappings;
-using TaskManagement.Application.Assignment.Commands;
-using TaskManagement.Application.Assignment.Queries;
+using TaskManagement.Application.Assignments.Commands;
+using TaskManagement.Application.Assignments.Queries;
 using TaskManagement.Domain.Shared;
 
 namespace TaskManagement.API.Controllers
@@ -17,29 +17,44 @@ namespace TaskManagement.API.Controllers
 		private readonly IValidator<CreateAssignmentCommand> _createValidator;
 		private readonly IValidator<UpdateAssignmentCommand> _updateValidator;
 
-        public AssignmentsController(IMediator mediator, 
-			IValidator<GetAssignment> validator, 
-			IValidator<CreateAssignmentCommand> createValidator, 
+		public AssignmentsController(IMediator mediator,
+			IValidator<GetAssignment> validator,
+			IValidator<CreateAssignmentCommand> createValidator,
 			IValidator<UpdateAssignmentCommand> updateValidator)
-        {
-            _mediator = mediator;
-            _validator = validator;
-            _createValidator = createValidator;
-            _updateValidator = updateValidator;
-        }
+		{
+			_mediator = mediator;
+			_validator = validator;
+			_createValidator = createValidator;
+			_updateValidator = updateValidator;
+		}
 
 
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Domain.Shared.Assignment>), StatusCodes.Status200OK)]
-        public async Task<ActionResult> GetMany()
+		[HttpGet]
+		[ProducesResponseType(typeof(IEnumerable<Domain.Shared.Assignment>), StatusCodes.Status200OK)]
+		public async Task<ActionResult> GetMany()
 		{
 			var result = await _mediator.Send(new GetAssignments());
 
 			return Ok(result.ToDto());
 		}
 
+		[HttpPost("Search")]
+		[ProducesResponseType(typeof(PagedEnumerable<Domain.Shared.Assignment>), StatusCodes.Status200OK)]
+		public async Task<ActionResult> GetPaged([FromQuery] PagedModel pagedModel, [FromBody] AssignmentSearch assignmentSearch)
+		{
+			var result = await _mediator.Send(GetPagedAssigments.Create(assignmentSearch.Name,
+																		assignmentSearch.UserId,
+																		assignmentSearch.Priority,
+																		assignmentSearch.Status,
+																		assignmentSearch.SeverityLevel,
+																		pagedModel.PageSize,
+																		pagedModel.Page));
+
+			return Ok(result);
+		}
+
 		[HttpGet("assignment/{id}")]
-        [ProducesResponseType(typeof(Domain.Shared.Assignment), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(Domain.Shared.Assignment), StatusCodes.Status200OK)]
 		public async Task<ActionResult> Get([FromRoute] string id)
 		{
 			var request = GetAssignment.Create(id);
@@ -49,14 +64,14 @@ namespace TaskManagement.API.Controllers
 			if (!validationResult.IsValid)
 			{
 				return BadRequest(validationResult.ToDictionary());
-            }
+			}
 
-            var result = await _mediator.Send(request);
+			var result = await _mediator.Send(request);
 
 			return Ok(result.ToDto());
 		}
 
-        [HttpPost]
+		[HttpPost]
 		[ProducesResponseType(typeof(Domain.Shared.Assignment), StatusCodes.Status200OK)]
 		public async Task<ActionResult> Create([FromBody] Assignment assigment)
 		{
@@ -69,7 +84,7 @@ namespace TaskManagement.API.Controllers
 
 			var validationResult = _createValidator.Validate(request);
 
-			if (!validationResult.IsValid) 
+			if (!validationResult.IsValid)
 			{
 				return BadRequest(validationResult?.ToDictionary());
 			}
@@ -93,12 +108,12 @@ namespace TaskManagement.API.Controllers
 
 			var validatorReults = _updateValidator.Validate(request);
 
-            if (!validatorReults.IsValid)
-            {
+			if (!validatorReults.IsValid)
+			{
 				return BadRequest(validatorReults?.ToDictionary());
-            }
+			}
 
-            var result = await _mediator.Send(request);
+			var result = await _mediator.Send(request);
 
 			return Ok(result.ToDto());
 		}
