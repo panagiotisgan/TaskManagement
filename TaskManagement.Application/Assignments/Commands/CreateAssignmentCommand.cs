@@ -4,7 +4,7 @@ using TaskManagement.Application.Mappings;
 using TaskManagement.Domain.Enums;
 using TaskManagement.Domain.Interfaces.Assigment;
 
-namespace TaskManagement.Application.Assignment.Commands
+namespace TaskManagement.Application.Assignments.Commands
 {
 	public class CreateAssignmentCommand : IRequest<TaskManagement.Domain.Models.Assignment>
 	{
@@ -49,14 +49,14 @@ namespace TaskManagement.Application.Assignment.Commands
 				.InclusiveBetween(1, 3)
 				.WithMessage("Invalid Priority range");
 
-            RuleFor(x => (int)x.SeverityLevel)
-                .InclusiveBetween(1, 5)
-                .WithMessage(x=> $"Invalid {nameof(x.SeverityLevel)} range");
+			RuleFor(x => (int)x.SeverityLevel)
+				.InclusiveBetween(1, 5)
+				.WithMessage(x => $"Invalid {nameof(x.SeverityLevel)} range");
 
-            RuleFor(x => (int)x.Status)
-                .InclusiveBetween(1, 5)
-                .WithMessage(x => $"Invalid {nameof(x.Status)} range");
-        }
+			RuleFor(x => (int)x.Status)
+				.InclusiveBetween(1, 5)
+				.WithMessage(x => $"Invalid {nameof(x.Status)} range");
+		}
 	}
 	public class CreateAssigmentCommandHandler : IRequestHandler<CreateAssignmentCommand, TaskManagement.Domain.Models.Assignment>
 	{

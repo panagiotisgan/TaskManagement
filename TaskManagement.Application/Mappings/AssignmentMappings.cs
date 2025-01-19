@@ -1,4 +1,4 @@
-﻿using TaskManagement.Application.Assignment.Commands;
+﻿using TaskManagement.Application.Assignments.Commands;
 
 namespace TaskManagement.Application.Mappings
 {

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using TaskManagement.Application.Assignment.Commands;
-using TaskManagement.Application.Assignment.Queries;
+using TaskManagement.Application.Assignments.Commands;
+using TaskManagement.Application.Assignments.Queries;
 using TaskManagement.Application.Comments.Commands;
 
 namespace TaskManagement.Application.Extensions
@@ -15,9 +15,10 @@ namespace TaskManagement.Application.Extensions
 			services.AddScoped<IValidator<GetAssignment>, GetAssignmentValidator>();
 			services.AddScoped<IValidator<CreateAssignmentCommand>, CreateAssignmentValidator>();
 			services.AddScoped<IValidator<UpdateAssignmentCommand>, UpdateAssignmentValidatror>();
+			services.AddScoped<IValidator<GetPagedAssigments>, GetPagedAssignmentsValidator>();
 			//services.AddScoped<IValidator<CreateLogCommand>, CreateLogValidator>();
 
 			return services;
 		}
-    }
+	}
 }
