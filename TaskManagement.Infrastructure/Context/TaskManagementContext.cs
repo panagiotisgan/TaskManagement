@@ -65,6 +65,10 @@ namespace TaskManagement.Infrastructure.Context
 				.IsRequired(false);
 
 			modelBuilder.Entity<Assignment>()
+				.Property(x => x.IsDeleted)
+				.HasDefaultValue(false);
+
+			modelBuilder.Entity<Assignment>()
 				.HasMany(x => x.Logs);
 
 			modelBuilder.Entity<Assignment>()

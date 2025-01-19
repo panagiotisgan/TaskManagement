@@ -127,5 +127,25 @@ namespace TaskManagement.API.Controllers
 
 			return Ok(result.ToDto());
 		}
+
+		[HttpPut("SetAssignee/{assignmentId}")]
+		public async Task<ActionResult> SetAssignee([FromRoute] string assignmentId, [FromQuery] string assigneeId)
+		{
+			var request = SetAssignmentCommand.Create(assignmentId, assigneeId);
+
+			await _mediator.Send(request);
+
+			return NoContent();
+		}
+
+		[HttpPut("DeleteAssignment/{assignmentId}")]
+		public async Task<ActionResult> MarkAssignmentAsDeleted([FromRoute] string assignmentId)
+		{
+			var request = SetAssignmentDeleted.Create(assignmentId);
+
+			await _mediator.Send(request);
+
+			return NoContent();
+		}
 	}
 }

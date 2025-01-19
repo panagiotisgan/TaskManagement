@@ -74,5 +74,29 @@ namespace TaskManagement.Infrastructure.Services
 				PageSize = pageSize
 			};
 		}
+
+		public async Task SetAssignee(long assignmentId, string assigneeId, CancellationToken cancellationToken)
+		{
+			var assignment = await _context.Assignments.FirstOrDefaultAsync(x => x.Id == assignmentId, cancellationToken);
+
+			if (assignment == null)
+				throw new Exception($"The assignment with Id: {assignmentId} does not exist");
+
+			assignment.UserId = assigneeId;
+
+			await _context.SaveChangesAsync(cancellationToken);
+		}
+
+		public async Task SetAssignmentAsDeleted(long assignmentId, CancellationToken cancellationToken)
+		{
+			var assignment = await _context.Assignments.FirstOrDefaultAsync(x => x.Id == assignmentId, cancellationToken);
+
+			if (assignment == null)
+				throw new Exception($"The assignment with Id: {assignmentId} does not exist");
+
+			assignment.SetAsDeleted();
+
+			await _context.SaveChangesAsync(cancellationToken);
+		}
 	}
 }
