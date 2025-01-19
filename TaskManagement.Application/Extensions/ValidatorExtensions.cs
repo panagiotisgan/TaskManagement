@@ -15,6 +15,7 @@ namespace TaskManagement.Application.Extensions
 			services.AddScoped<IValidator<GetAssignment>, GetAssignmentValidator>();
 			services.AddScoped<IValidator<CreateAssignmentCommand>, CreateAssignmentValidator>();
 			services.AddScoped<IValidator<UpdateAssignmentCommand>, UpdateAssignmentValidatror>();
+			services.AddScoped<IValidator<GetPagedAssigments>, GetPagedAssignmentsValidator>();
 			//services.AddScoped<IValidator<CreateLogCommand>, CreateLogValidator>();
 
 			return services;

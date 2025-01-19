@@ -60,15 +60,17 @@ namespace TaskManagement.Infrastructure.Services
 			total = await baseQuery
 							.CountAsync();
 
+			int pageCalculate = (page - 1) * pageSize;
+
 			return new PagedEnumerable<Assignment>
 			{
 				Items = await baseQuery
-						.Skip(page)
+						.Skip(pageCalculate)
 						.Take(pageSize)
 						.OrderByDescending(x => x.Id)
 						.ToArrayAsync(),
 				Total = total,
-				Page = page,
+				Page = (page + 1),
 				PageSize = pageSize
 			};
 		}

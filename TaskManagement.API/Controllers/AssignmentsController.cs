@@ -14,6 +14,7 @@ namespace TaskManagement.API.Controllers
 	{
 		private readonly IMediator _mediator;
 		private readonly IValidator<GetAssignment> _validator;
+		private readonly IValidator<GetPagedAssigments> _getPagedvalidator;
 		private readonly IValidator<CreateAssignmentCommand> _createValidator;
 		private readonly IValidator<UpdateAssignmentCommand> _updateValidator;
 
@@ -42,13 +43,22 @@ namespace TaskManagement.API.Controllers
 		[ProducesResponseType(typeof(PagedEnumerable<Domain.Shared.Assignment>), StatusCodes.Status200OK)]
 		public async Task<ActionResult> GetPaged([FromQuery] PagedModel pagedModel, [FromBody] AssignmentSearch assignmentSearch)
 		{
-			var result = await _mediator.Send(GetPagedAssigments.Create(assignmentSearch.Name,
+			var request = GetPagedAssigments.Create(assignmentSearch.Name,
 																		assignmentSearch.UserId,
 																		assignmentSearch.Priority,
 																		assignmentSearch.Status,
 																		assignmentSearch.SeverityLevel,
 																		pagedModel.PageSize,
-																		pagedModel.Page));
+																		pagedModel.Page);
+
+			var validationResult = await _getPagedvalidator.ValidateAsync(request);
+
+			if (!validationResult.IsValid)
+			{
+				return BadRequest(validationResult.ToDictionary());
+			}
+
+			var result = await _mediator.Send(request);
 
 			return Ok(result);
 		}

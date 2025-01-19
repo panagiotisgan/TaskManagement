@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using TaskManagement.Domain.Common;
 using TaskManagement.Domain.Interfaces.Assigment;
 
@@ -28,6 +29,20 @@ namespace TaskManagement.Application.Assignments.Queries
 		public static GetPagedAssigments Create(string? name, string? userId, string? priority, string? status, string? severityLevel, int pageSize, int page)
 		{
 			return new GetPagedAssigments(name, userId, priority, status, severityLevel, pageSize, page);
+		}
+	}
+
+	public class GetPagedAssignmentsValidator : AbstractValidator<GetPagedAssigments>
+	{
+		public GetPagedAssignmentsValidator()
+		{
+			RuleFor(x => x.Page)
+				.LessThanOrEqualTo(0)
+				.WithMessage(x => $"{nameof(x.Page)} must be greater than zero");
+
+			RuleFor(x => x.PageSize)
+				.InclusiveBetween(5, 50)
+				.WithMessage(x => $"{nameof(x.PageSize)} value must be between 5 and 50");
 		}
 	}
 
