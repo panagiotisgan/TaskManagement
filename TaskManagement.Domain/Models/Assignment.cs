@@ -15,9 +15,16 @@ namespace TaskManagement.Domain.Models
 		public DateTime? StartDate { get; set; }
 		public DateTime? EndDate { get; set; }
 		public byte[]? Attachements { get; set; }
+		public bool IsDeleted { get; set; }
 		public IEnumerable<Comment>? Comments { get; set; }
 		public IEnumerable<Log>? Logs { get; set; }
 		public User User { get; set; }
+
+		public void SetAsDeleted()
+		{
+			IsDeleted = true;
+			Status = Status.Closed;
+		}
 
 	}
 }
